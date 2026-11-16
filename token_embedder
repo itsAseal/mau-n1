@@ -1,0 +1,25 @@
+import tokenizers
+from tokenizers import Tokenizer
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
+from tokenizers.pre_tokenizers import ByteLevel
+from tokenizers.decoders import ByteLevel as ByteLevelDecoder
+
+tokenizer = tokenizers.Tokenizer(BPE())
+tokenizer.pre_tokenizer = ByteLevel(add_prefix_space=False)
+tokenizer.decoder = ByteLevelDecoder()
+
+# Change vocab size
+trainer = BpeTrainer(vocab_size=5000, initial_alphabet=ByteLevel.alphabet(), special_tokens=["<|endoftext|>"])
+
+def train(file):
+    tokenizer.train([file], trainer)
+    tokenizer.save('tokenizer.json')
+
+def encode(text):
+    token_json = Tokenizer.from_file('tokenizer.json')
+    return token_json.encode(text).ids
+
+def decode(tokens):
+    token_json = Tokenizer.from_file('tokenizer.json')
+    return token_json.decode(tokens)  
