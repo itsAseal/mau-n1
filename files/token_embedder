@@ -22,4 +22,4 @@ def encode(text):
 
 def decode(tokens):
     token_json = Tokenizer.from_file('tokenizer.json')
-    return token_json.decode(tokens)  
+    return token_json.(tokens, skip_special_tokens=False)
