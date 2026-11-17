@@ -12,8 +12,8 @@ tokenizer.decoder = ByteLevelDecoder()
 # Change vocab size
 trainer = BpeTrainer(vocab_size=5000, initial_alphabet=ByteLevel.alphabet(), special_tokens=["<|endoftext|>"])
 
-def train(file):
-    tokenizer.train([file], trainer)
+def train(dataset):
+    tokenizer.train([dataset], trainer)
     tokenizer.save('tokenizer.json')
 
 def encode(text):
